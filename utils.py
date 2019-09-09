@@ -1,15 +1,15 @@
 import json
 from LessonsProgrammer import models
-from typing import List
+from typing import List, Tuple
 
 PACKAGES = 'packages'
 NAME = 'name'
 ListLesson = List[models.Lesson]
-ListProgram = List[models.Program]
+ListProgram = List[Tuple[str, models.Program]]
 
 
-def get_all_lessons() -> ListLesson:
-    datas = json.load(open('/home/omid/PycharmProjects/myproject/LessonsProgrammer/Lessons.json', 'r'))
+def get_all_lessons(path='Lessons.json') -> ListLesson:
+    datas = json.load(open(path, 'r'))
     lessons = []
     for data in datas:
         name = data[NAME]
@@ -58,19 +58,15 @@ def get(lessons: ListLesson, code):
     return None
 
 
-def make_all_possible_program(lessons: ListLesson, index: int = -1, program: ListProgram=None, result: ListProgram=None) -> ListProgram:
+def make_all_possible_program(lessons: ListLesson, index: int = -1, program=None, result=None):
     if index == -1:
         res = []
         make_all_possible_program(lessons, 0, [], res)
         return res
     elif index == len(lessons):
-        result.append(models.Program())
-        result[-1].addpackages(program)
+        result.append(models.Program(program.copy()))
     else:
         for package in lessons[index].packages:
-            program.append(package)
+            program.append((lessons[index].name, package))
             make_all_possible_program(lessons, index + 1, program, result)
             program.pop()
-
-
-get_all_lessons()
