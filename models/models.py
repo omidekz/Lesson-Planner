@@ -125,11 +125,15 @@ class Package:
 
 
 class Program:
-    def __init__(self):
-        self.packages = []
+    def __init__(self, packages=None):
+        self.packages = [] if not packages else packages
 
     def addpackage(self, package: Package):
         self.packages.append(package)
+
+    def addpackages(self, packages):
+        for i in packages:
+            self.addpackage(i)
 
     def __str__(self):
         return self.packages.__str__()
