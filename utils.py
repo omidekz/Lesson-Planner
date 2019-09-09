@@ -75,4 +75,16 @@ def make_all_possible_program(lessons: ListLesson, index: int = -1, program=None
 
 
 def isok(prog: models.Program):
+    for day_name, times in prog.days.items():
+        times.sort(key=lambda x: x[1], reverse=False)
+        for i in range(len(times) - 1):
+            if times[i][1].conflict(times[i + 1][1]):
+                return False
+    for i in range(len(prog.packages)):
+        for j in range(i + 1, len(prog.packages)):
+            if prog.packages[i].exam_day[0] == prog.packages[j].exam_day[0] and \
+                    prog.packages[i].exam_day[1] == prog.packages[j].exam_day[1] and \
+                    prog.packages[i].exam_day[2].conflict(prog.packages[j].exam_day[2]):
+                return False
+
     return True
