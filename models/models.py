@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Tuple
 
 
 class Time:
@@ -137,7 +137,7 @@ class Day:
 
 
 class Package:
-    def __init__(self, code, exam_date: tuple):
+    def __init__(self, code, exam_date: Tuple[int, int, Time]):
         self.days: List[Day] = []
         self.code = code
         self.lesson_name = None
@@ -157,7 +157,7 @@ class Package:
 
 class Program:
     def __init__(self, packages=None):
-        self.packages = []
+        self.packages: List[Package] = []
         self.days = dict()
         self.addpackages(packages)
 
