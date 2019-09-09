@@ -107,9 +107,12 @@ class Day:
 
 
 class Package:
-    def __init__(self, code):
+    def __init__(self, code, exam_date: tuple):
         self.days = []
         self.code = code
+        # tuple of date and day
+        # (mon, day_date, Time)
+        self.exam_day = exam_date
 
     def adday(self, day: Day):
         self.days.append(day)
@@ -136,24 +139,30 @@ class Program:
 
 
 class Lesson:
+    DAYS = 'days'
+    TIMES = 'times'
+    CODE = 'codes'
+    EXAM_TIME = 'exam_time'
+    EXAM_MONTH = 'exam_month'
+    EXAM_DAY_DATE = 'exam_day'
+
     def __init__(self, name, code):
         self.name = name
         self.code = code
         self.packages = []
 
     def addpackage(self, **kwargs):
-        days = kwargs['days']  # list of name of day
-        times = kwargs['times']  # list of tuples of time
-        code = kwargs['code']
+        days = kwargs[Lesson.DAYS]  # list of name of day
+        times = kwargs[Lesson.TIMES]  # list of tuples of time
+        code = kwargs[Lesson.CODE]
+        ext = kwargs[Lesson.EXAM_TIME]
+        exm = kwargs[Lesson.EXAM_MONTH]
+        exd = kwargs[Lesson.EXAM_DAY_DATE]
 
-        time_len = len(times)
-        day_len = len(days)
-        if time_len != day_len:
+        if len(times) != len(days):
             raise Exception('not equal')
-        del time_len
-        del day_len
 
-        package = Package(code)
+        package = Package(code, (exm, exd, Time(ext[0], ext[1])))
         del code
 
         for index in range(len(days)):
