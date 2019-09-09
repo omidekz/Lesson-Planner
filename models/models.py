@@ -96,6 +96,9 @@ class Day:
         self.time = time
         self.val = self.days[name]
 
+    def value(self):
+        return self.val
+
     def __str__(self):
         return '{} {}'.format(self.day, self.time)
 
