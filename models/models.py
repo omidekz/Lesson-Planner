@@ -1,3 +1,6 @@
+from typing import List
+
+
 class Time:
     def __init__(self, start: str, end: str):
         def fill_with(x):
@@ -105,10 +108,34 @@ class Day:
     def __repr__(self):
         return self.__str__()
 
+    def times(self):
+        return self.time
+
+    def __eq__(self, other):
+        return self.value() == other.value()
+
+    def __le__(self, other):
+        return self.value() <= other.value()
+
+    def __lt__(self, other):
+        return self.value() < other.value()
+
+    def __ge__(self, other):
+        return self.value() >= other.value()
+
+    def __gt__(self, other):
+        return self.value() > other.value()
+
+    def __sub__(self, other):
+        def pos(x):
+            return x if x > 0 else -x
+
+        return pos(other.value() - self.value())
+
 
 class Package:
     def __init__(self, code, exam_date: tuple):
-        self.days = []
+        self.days: List[Day] = []
         self.code = code
         self.lesson_name = None
         # tuple of date and day
@@ -127,17 +154,27 @@ class Package:
 
 class Program:
     def __init__(self, packages=None):
-        self.packages = [] if not packages else packages
+        self.packages = []
+        self.days = dict()
+        self.addpackages(packages)
 
     def addpackage(self, package: Package):
         self.packages.append(package)
+        for ind, day in enumerate(package.days):
+            if day.day in self.days:
+                self.days[day.day].append((package.lesson_name, day.times()))
+            else:
+                self.days[day.day] = []
+                self.days[day.day].append((package.lesson_name, day.times()))
 
     def addpackages(self, packages):
+        if packages is None:
+            return
         for i in packages:
             self.addpackage(i)
 
     def __str__(self):
-        return self.packages.__str__()
+        return self.days.__str__()
 
     def __repr__(self):
         return self.__str__()
