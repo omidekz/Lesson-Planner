@@ -125,10 +125,15 @@ class Lesson:
         times = kwargs['times']  # list of tuples of time
         code = kwargs['code']
 
-        if len(times) is not len(days):
+        time_len = len(times)
+        day_len = len(days)
+        if time_len != day_len:
             raise Exception('not equal')
+        del time_len
+        del day_len
 
         package = Package(code)
+        del code
 
         for index in range(len(days)):
             time = Time(times[index][0], times[index][1])
