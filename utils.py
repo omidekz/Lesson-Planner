@@ -5,6 +5,7 @@ from typing import List
 PACKAGES = 'packages'
 NAME = 'name'
 ListLesson = List[models.Lesson]
+ListProgram = List[models.Program]
 
 
 def get_all_lessons() -> ListLesson:
@@ -55,6 +56,21 @@ def get(lessons: ListLesson, code):
         if i.code == int(code):
             return i
     return None
+
+
+def make_all_possible_program(lessons: ListLesson, index: int = -1, program: ListProgram=None, result: ListProgram=None) -> ListProgram:
+    if index == -1:
+        res = []
+        make_all_possible_program(lessons, 0, [], res)
+        return res
+    elif index == len(lessons):
+        result.append(models.Program())
+        result[-1].addpackages(program)
+    else:
+        for package in lessons[index].packages:
+            program.append(package)
+            make_all_possible_program(lessons, index + 1, program, result)
+            program.pop()
 
 
 get_all_lessons()
