@@ -64,9 +64,15 @@ def make_all_possible_program(lessons: ListLesson, index: int = -1, program=None
         make_all_possible_program(lessons, 0, [], res)
         return res
     elif index == len(lessons):
-        result.append(models.Program(program.copy()))
+        prog = models.Program(program.copy())
+        if isok(prog):
+            result.append(prog)
     else:
         for package in lessons[index].packages:
-            program.append((lessons[index].name, package))
+            program.append(package)
             make_all_possible_program(lessons, index + 1, program, result)
             program.pop()
+
+
+def isok(prog: models.Program):
+    return True
