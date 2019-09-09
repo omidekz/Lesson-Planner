@@ -36,19 +36,8 @@ def get_all_lessons(path='Lessons.json') -> ListLesson:
 def select_lessons(lessons: ListLesson) -> ListLesson:
     for ind, lesson in enumerate(lessons):
         print('{})'.format(ind), lesson.name, '-', lesson.code)
-    new_lesson = []
-    code = input('lesson code[-1 for finish]:')
-    while code != '-1':
-        res = get(lessons, code)
-        if res and not get(new_lesson, code):
-            new_lesson.append(res)
-            print('added')
-        elif get(new_lesson, code):
-            print('it been added')
-        else:
-            print('not found this {} code'.format(code))
-        code = input('lesson code[-1 for finish]:')
-    return new_lesson
+    code = list(map(int, input('enter lesson numbers separate by space 1 3 2 5 : ').split()))
+    return [lessons[i] for i in code]
 
 
 def get(lessons: ListLesson, code):
