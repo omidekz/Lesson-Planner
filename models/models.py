@@ -3,9 +3,6 @@ from typing import List, Tuple
 
 class Time:
     def __init__(self, start: str, end: str):
-        def fill_with(x):
-            return x.zfill(2)
-
         h, m = start.split(':')
         self.start = '{}:{}'.format(h.zfill(2), m.zfill(2))
         h, m = end.split(':')
