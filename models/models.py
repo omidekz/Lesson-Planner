@@ -2,6 +2,7 @@ class Time:
     def __init__(self, start: str, end: str):
         def fill_with(x):
             return x.zfill(2)
+
         h, m = start.split(':')
         self.start = '{}:{}'.format(h.zfill(2), m.zfill(2))
         h, m = end.split(':')
@@ -23,15 +24,13 @@ class Time:
 
     def value(self, of_start=True):
         if of_start:
-            return int('{}{}'.format(self.start_h(), self.start_m()))
-        return int('{}{}'.format(self.end_h(), self.end_m()))
+            return int(self.start.replace(':', ''))
+        return int(self.end.replace(':', ''))
 
     def conflict(self, time):
         """
         we can have 3 conflict between times
-        A
-            [...]
-              [...]
+
         B
             [...]
             [...]
@@ -42,19 +41,25 @@ class Time:
         :return:
         """
         # B
-        self_value = self.value()
-        time_value = time.value()
-        if self_value == time:
+        #   [...]
+        #   [...]
+        self_start_value = self.value()
+        self_end_value = self.value(of_start=False)
+        time_start_value = time.value()
+        time_end_value = time.value(of_start=False)
+
+        if self_start_value == time_start_value or \
+                self_end_value == time_end_value:
             return True
         # A
-        self_value = self.value(of_start=False)
-        time_value = time.value()
-        if self_value > time_value:
+        #  [...]
+        #   [...]
+        if self_start_value < time_start_value < self_end_value:
             return True
         # C
-        self_value = self.value()
-        time_value = time.value(of_start=False)
-        if time_value > self_value:
+        #   [...]
+        #  [...]
+        if self_start_value < time_end_value < self_end_value:
             return True
         # we have no conflict
         return False
