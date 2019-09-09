@@ -97,7 +97,7 @@ class Day:
 
     def __init__(self, name, time: Time):
         if name not in self.days:
-            raise Exception('Bad Day Passed')
+            raise Exception('Bad Day Passed {}'.format(name))
         self.day = name
         self.time = time
         self.val = self.days[name]
@@ -192,7 +192,7 @@ class Lesson:
     EXAM_DAY_DATE = 'exam_day'
 
     def __init__(self, name, code):
-        self.name = name
+        self.name: str = name
         self.code = code
         self.packages = []
 
