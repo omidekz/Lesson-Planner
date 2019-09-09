@@ -1,9 +1,13 @@
 class Time:
     def __init__(self, start: str, end: str):
-        self.start = start
-        self.end = end
-        self.start_hour, self.start_minute = map(int, start.split(':'))
-        self.end_hour, self.end_minute = map(int, end.split(':'))
+        def fill_with(x):
+            return x.zfill(2)
+        h, m = start.split(':')
+        self.start = '{}:{}'.format(h.zfill(2), m.zfill(2))
+        h, m = end.split(':')
+        self.end = '{}:{}'.format(h.zfill(2), m.zfill(2))
+        self.start_hour, self.start_minute = map(int, self.start.split(':'))
+        self.end_hour, self.end_minute = map(int, self.end.split(':'))
 
     def start_h(self):
         return self.start_hour
