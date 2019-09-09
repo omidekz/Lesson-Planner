@@ -25,7 +25,7 @@ class Time:
     def end_m(self):
         return self.end_minute
 
-    def value(self, of_start=True):
+    def value(self, of_start=True) -> int:
         if of_start:
             return int(self.start.replace(':', ''))
         return int(self.end.replace(':', ''))
@@ -66,6 +66,9 @@ class Time:
             return True
         # we have no conflict
         return False
+
+    def __lt__(self, other):
+        return self.value() < other.value()
 
     def __str__(self):
         return '{}-{}'.format(self.start, self.end)
