@@ -1,5 +1,5 @@
 import json
-from LessonsProgrammer import models
+from LessonPlanner import models
 from typing import List, Tuple
 
 PACKAGES = 'packages'

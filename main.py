@@ -1,4 +1,4 @@
-from LessonsProgrammer import utils
+from LessonPlanner import utils
 
 
 if __name__ == '__main__':
