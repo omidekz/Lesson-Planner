@@ -128,6 +128,12 @@ class Program:
     def addpackage(self, package: Package):
         self.packages.append(package)
 
+    def __str__(self):
+        return self.packages.__str__()
+
+    def __repr__(self):
+        return self.__str__()
+
 
 class Lesson:
     def __init__(self, name, code):
