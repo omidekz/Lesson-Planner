@@ -96,6 +96,12 @@ class Day:
         self.time = time
         self.val = self.days[name]
 
+    def __str__(self):
+        return '{} {}'.format(self.day, self.time)
+
+    def __repr__(self):
+        return self.__str__()
+
 
 class Package:
     def __init__(self, code):
@@ -104,6 +110,12 @@ class Package:
 
     def adday(self, day: Day):
         self.days.append(day)
+
+    def __str__(self):
+        return self.days.__str__()
+
+    def __repr__(self):
+        return self.__str__()
 
 
 class Program:
@@ -141,3 +153,6 @@ class Lesson:
             package.adday(day)
 
         self.packages.append(package)
+
+    def __str__(self):
+        return '{} [{}]'.format(self.name, ', '.join([package.__str__() for package in self.packages]))
