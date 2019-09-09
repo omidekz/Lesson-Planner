@@ -110,6 +110,7 @@ class Package:
     def __init__(self, code, exam_date: tuple):
         self.days = []
         self.code = code
+        self.lesson_name = None
         # tuple of date and day
         # (mon, day_date, Time)
         self.exam_day = exam_date
@@ -167,6 +168,7 @@ class Lesson:
             raise Exception('not equal')
 
         package = Package(code, (exm, exd, Time(ext[0], ext[1])))
+        package.lesson_name = self.name
         del code
 
         for index in range(len(days)):
