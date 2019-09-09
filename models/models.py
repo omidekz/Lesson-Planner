@@ -69,3 +69,70 @@ class Time:
 
     def __repr__(self):
         return self.__str__()
+
+
+class Day:
+    days = {
+        'شنبه': 0,
+        'یکشنبه': 1,
+        'دوشنبه': 2,
+        'سه شنبه': 3,
+        'چهارشنبه': 4,
+        'پنجشنبه': 5,
+        'جمعه': 6,
+
+        'شمبه': 0,
+        'یک شنبه': 1,
+        'سشنبه': 3,
+        'دو شنبه': 2,
+        'چهار شنبه': 4,
+        'پنج شنبه': 5,
+    }
+
+    def __init__(self, name, time: Time):
+        if name not in self.days:
+            raise Exception('Bad Day Passed')
+        self.day = name
+        self.time = time
+        self.val = self.days[name]
+
+
+class Package:
+    def __init__(self, code):
+        self.days = []
+        self.code = code
+
+    def adday(self, day: Day):
+        self.days.append(day)
+
+
+class Program:
+    def __init__(self):
+        self.packages = []
+
+    def addpackage(self, package: Package):
+        self.packages.append(package)
+
+
+class Lesson:
+    def __init__(self, name, code):
+        self.name = name
+        self.code = code
+        self.packages = []
+
+    def addpackage(self, **kwargs):
+        days = kwargs['days']  # list of name of day
+        times = kwargs['times']  # list of tuples of time
+        code = kwargs['code']
+
+        if len(times) is not len(days):
+            raise Exception('not equal')
+
+        package = Package(code)
+
+        for index in range(len(days)):
+            time = Time(times[index][0], times[index][1])
+            day = Day(days[index], time)
+            package.adday(day)
+
+        self.packages.append(package)
