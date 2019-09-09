@@ -100,7 +100,7 @@ class Day:
         return self.val
 
     def __str__(self):
-        return '{} {}'.format(self.day, self.time)
+        return '({} -> {})'.format(self.day, self.time)
 
     def __repr__(self):
         return self.__str__()
@@ -141,7 +141,7 @@ class Program:
 class Lesson:
     DAYS = 'days'
     TIMES = 'times'
-    CODE = 'codes'
+    CODE = 'code'
     EXAM_TIME = 'exam_time'
     EXAM_MONTH = 'exam_month'
     EXAM_DAY_DATE = 'exam_day'
@@ -174,3 +174,6 @@ class Lesson:
 
     def __str__(self):
         return '{} [{}]'.format(self.name, ', '.join([package.__str__() for package in self.packages]))
+
+    def __repr__(self):
+        return self.__str__()
