@@ -155,16 +155,20 @@ class Package:
 class Program:
     def __init__(self, packages=None):
         self.packages: List[Package] = []
-        self.days = dict()
+        self.days = {
+            'شنبه': [],
+            'یکشنبه': [],
+            'دوشنبه': [],
+            'سه شنبه': [],
+            'چهار شنبه': [],
+            'پنجشنبه': [],
+        }
         self.addpackages(packages)
 
     def addpackage(self, package: Package):
         self.packages.append(package)
         for ind, day in enumerate(package.days):
             if day.day in self.days:
-                self.days[day.day].append((package.lesson_name, day.times()))
-            else:
-                self.days[day.day] = []
                 self.days[day.day].append((package.lesson_name, day.times()))
 
     def addpackages(self, packages):
