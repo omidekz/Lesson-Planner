@@ -22,7 +22,7 @@ def get_day(val):
 
 def make_dict_lesson() -> dict:
     name = input("name: ")
-    code = "222" + input("code: ")
+    code = input("code: ")
     packages = int(input("n of packages: "))
     lesson: Dict[str: str, str: List] = {
         "name": name,
