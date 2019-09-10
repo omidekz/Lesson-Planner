@@ -1,6 +1,10 @@
 # Lesson Planner
 - this repo make a list of possible Lesson-Plan by brute-force algorithm
 
+# Usage:
+#### just run the main file
+<hr>
+
 ## Structure:
 * ### all [models](models/models.py):
     - Time: 
