@@ -8,27 +8,32 @@ ListLesson = List[models.Lesson]
 ListProgram = List[Tuple[str, models.Program]]
 
 
+def make_lesson_from_json(data: dict) -> models.Lesson:
+    name = data[NAME]
+    code = data[models.Lesson.CODE]
+    lesson = models.Lesson(name, code)
+    packages = data[PACKAGES]
+    for package in packages:
+        p_code = package[models.Lesson.CODE]
+        days = package[models.Lesson.DAYS]
+        times = package[models.Lesson.TIMES]
+        ext = package[models.Lesson.EXAM_TIME]
+        exm = package[models.Lesson.EXAM_MONTH]
+        exd = package[models.Lesson.EXAM_DAY_DATE]
+        lesson.addpackage(code=p_code,
+                          times=times,
+                          days=days,
+                          exam_time=ext,
+                          exam_day=exd,
+                          exam_month=exm)
+    return lesson
+
+
 def get_all_lessons(path='Lessons.json') -> ListLesson:
     datas = json.load(open(path, 'r'))
-    lessons = []
+    lessons: ListLesson = []
     for data in datas:
-        name = data[NAME]
-        code = data[models.Lesson.CODE]
-        lesson = models.Lesson(name, code)
-        packages = data[PACKAGES]
-        for package in packages:
-            p_code = package[models.Lesson.CODE]
-            days = package[models.Lesson.DAYS]
-            times = package[models.Lesson.TIMES]
-            ext = package[models.Lesson.EXAM_TIME]
-            exm = package[models.Lesson.EXAM_MONTH]
-            exd = package[models.Lesson.EXAM_DAY_DATE]
-            lesson.addpackage(code=p_code,
-                              times=times,
-                              days=days,
-                              exam_time=ext,
-                              exam_day=exd,
-                              exam_month=exm)
+        lesson = make_lesson_from_json(data)
         lessons.append(lesson)
     return lessons
 
