@@ -1,11 +1,60 @@
 import json
 from LessonPlanner import models
-from typing import List, Tuple
+from typing import List, Tuple, Dict
 
 PACKAGES = 'packages'
 NAME = 'name'
 ListLesson = List[models.Lesson]
 ListProgram = List[Tuple[str, models.Program]]
+
+
+def get_day(val):
+    _days_ = {
+        "0": "شنبه",
+        "1": "یکشنبه",
+        "2": "دوشنبه",
+        "3": "سه شنبه",
+        "4": "چهارشنبه",
+        "5": "پنجشنبه",
+    }
+    return _days_[val]
+
+
+def make_dict_lesson() -> dict:
+    name = input("name: ")
+    code = "222" + input("code: ")
+    packages = int(input("n of packages: "))
+    lesson: Dict[str: str, str: List] = {
+        "name": name,
+        "code": code,
+        "packages": []
+    }
+    for i in range(packages):
+        p_code = i + 1
+        days = input("days: ").split()
+        days = [get_day(i) for i in days]
+        times = list(map(lambda x: x.split("-"), input("times: ").split()))
+        while len(times) * 2 == len(days):
+            times.append(times[0])
+        try:
+            exd, exm = input("exam date[day month]: ").split()
+            ext = input("exam time[10:00-12:00]: ").split("-")
+        except Exception:
+            d: Dict = lesson["packages"][-1]
+            exd, exm, ext = d['exam_day'], d['exam_month'], d['exam_time']
+        lesson["packages"].append({
+            "code": p_code,
+            "days": days,
+            "times": times,
+            "exam_month": exm,
+            "exam_day": exd,
+            "exam_time": ext
+        })
+    return lesson
+
+
+def make_json_lesson() -> str:
+    return str(make_dict_lesson()).replace("'", '"')
 
 
 def make_lesson_from_json(data: dict) -> models.Lesson:
@@ -40,9 +89,12 @@ def get_all_lessons(path='Lessons.json') -> ListLesson:
 
 def select_lessons(lessons: ListLesson) -> ListLesson:
     for ind, lesson in enumerate(lessons):
-        print('{})'.format(ind), lesson.name, '-', lesson.code)
+        print('{})'.format(ind), lesson.name)
     code = list(map(int, input('enter lesson numbers separate by space 1 3 2 5 : ').split()))
-    return [lessons[i] for i in code]
+    lessons = [lessons[i] for i in code]
+    while input('do want to create some lesson[y/n]? : ').lower()[0] == 'y':
+        lessons.append(make_lesson_from_json(make_dict_lesson()))
+    return lessons
 
 
 def get(lessons: ListLesson, code):
