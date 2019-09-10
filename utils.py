@@ -71,6 +71,8 @@ def isok(prog: models.Program):
                 return False
     for i in range(len(prog.packages)):
         for j in range(i + 1, len(prog.packages)):
+            if prog.packages[i].exam_day[0] == -1 or prog.packages[i].exam_day[0] == '-1':
+                continue
             if prog.packages[i].exam_day[0] == prog.packages[j].exam_day[0] and \
                     prog.packages[i].exam_day[1] == prog.packages[j].exam_day[1] and \
                     prog.packages[i].exam_day[2].conflict(prog.packages[j].exam_day[2]):
